@@ -20,7 +20,11 @@ fun main() {
     val monstre2 = IndividuMonstre(2, "flamkip", especeFlamkip,null,1500.0 )
     val monstre3 = IndividuMonstre(3, "aquamy", especeAquamy,null,1500.0 )
 
-    val badgeRoche = Badge(1,"Badge Roche","Badge gagné lorque le joueur atteint l'arène de pierre.")
+    //val badgeRoche = Badge(1,"Badge Roche","Badge gagné lorque le joueur atteint l'arène de pierre.",)
+
+    val MonsterKube = MonsterKube(1,"MonsterKube","Outil servant à capturer un monstre", 5.0)
+
+
 }
 
 
