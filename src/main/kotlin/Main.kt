@@ -18,9 +18,9 @@ fun main() {
     route1.zoneSuivante = route2
     route2.ZonePrecedente = route1
 
-    val monstre1 = IndividuMonstre(1, "springleaf", especeSpringleaf,null,1500.0 )
-    val monstre2 = IndividuMonstre(2, "flamkip", especeFlamkip,null,1500.0 )
-    val monstre3 = IndividuMonstre(3, "aquamy", especeAquamy,null,1500.0 )
+//    val monstre1 = IndividuMonstre(1, "springleaf", especeSpringleaf,null,1500.0 )
+//    val monstre2 = IndividuMonstre(2, "flamkip", especeFlamkip,null,1500.0 )
+//    val monstre3 = IndividuMonstre(3, "aquamy", especeAquamy,null,1500.0 )
 
     //val badgeRoche = Badge(1,"Badge Roche","Badge gagné lorque le joueur atteint l'arène de pierre.")
 
