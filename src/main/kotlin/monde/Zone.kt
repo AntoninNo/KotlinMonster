@@ -1,3 +1,5 @@
+import kotlin.random.Random
+import jeu.CombatMonstre
 /**
  * Représente une zone dans le jeu.
  *
@@ -20,6 +22,22 @@ class Zone(
     var zoneSuivante: Zone? = null,
     var ZonePrecedente: Zone? = null
 ){
-    // TODO genereMonstre()
-    // TODO rencontreMonstre()
+    fun genereMonstre():IndividuMonstre{
+        val especeMonstreAlea = especeMonstres.random()
+        expZone += if (Random.nextBoolean()) 20 else -20
+        var monstreAlea = IndividuMonstre(4000,"SauvageTest",especeMonstreAlea,null,expZone.toDouble())
+        return monstreAlea
+    }
+
+    fun rencontreMonstre(){
+        val monstreSauvage = genereMonstre()
+        var premierPokemon: IndividuMonstre? = null
+        joueur.equipeMonstre.forEach(){monstre ->
+            if(monstre.pv>0){
+                premierPokemon = monstre
+            }
+        }
+        val combat = CombatMonstre(premierPokemon!!,monstreSauvage)
+        combat.lancerCombat()
+    }
 }

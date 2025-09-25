@@ -1,8 +1,9 @@
 package jeu
 import IndividuMonstre
+import EspeceMonstre
 import item.Utilisable
 import joueur
-import EspeceMonstre
+
 
 class CombatMonstre(
     var monstreJoueur: IndividuMonstre,
@@ -88,11 +89,50 @@ class CombatMonstre(
         println("========= Début Round : $round =========")
         println("Niveau : ${monstreSauvage.niveau}")
         println("PV : ${monstreSauvage.pv} / ${monstreSauvage.pvMax}")
-        println(monstreSauvage.afficheArt())
-        println(monstreJoueur.afficheArt(false))
+        println(monstreSauvage.espece.afficheArt())
+        println(monstreJoueur.espece.afficheArt(false))
         println("Niveau : ${monstreJoueur.niveau}")
         println("PV : ${monstreJoueur.pv} / ${monstreJoueur.pvMax}")
     }
+    fun jouer(){
+        val joueurPlusRapide: Boolean = (monstreJoueur.vitesse>=monstreSauvage.vitesse)
+        afficheCombat()
+        if(joueurPlusRapide){
+            var continuer = this.actionJoueur()
+            if(continuer == false){
+                return
+            }
+            else{
+                this.actionAdversaire()
+                return
+            }
+        } else {
+            this.actionAdversaire()
+            if(this.gameOver()==false){
+                val continuer = this.actionJoueur()
+            } else {
+                return
+            }
+        }
+    }
+    /**
+     * Lance le combat et gère les rounds jusqu'à la victoire ou la défaite.
+     *
+     * Affiche un message de fin si le joueur perd et restaure les PV
+     * de tous ses monstres.
+     */
+    fun lancerCombat() {
+        while (!gameOver() && !joueurGagne()) {
+            this.jouer()
+            println("======== Fin du Round : $round ========")
+            round++
+        }
+        if (gameOver()) {
+            joueur.equipeMonstre.forEach { it.pv = it.pvMax }
+            println("Game Over !")
+        }
+    }
+
 
 
 }
