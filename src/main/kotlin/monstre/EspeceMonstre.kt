@@ -1,3 +1,4 @@
+import monstre.PalierEvolution
 import java.io.File
 
 /**
@@ -44,6 +45,7 @@ class EspeceMonstre(
     val description: String = "",
     val particularites: String = "",
     val caractères: String = "",
+    var palierEvolution: PalierEvolution?=null
     ){
     /**
      * Affiche la représentation artistique ASCII du monstre.

@@ -64,7 +64,7 @@ class CombatMonstre(
         } else if(choixAction == 2){
             println("Sac :")
             for (i in joueur.sacAItems.indices) {
-                println("$i : ${joueur.equipeMonstre[i].nom}")
+                println("$i : ${joueur.sacAItems[i].nom}")
             }
             var indexChoix: Int = readln().toInt()
             var objetChoisi = joueur.sacAItems[indexChoix]

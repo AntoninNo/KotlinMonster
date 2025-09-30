@@ -1,3 +1,4 @@
+import monstre.PalierEvolution
 import kotlin.math.pow
 import kotlin.math.round
 import kotlin.random.Random
@@ -64,6 +65,12 @@ class IndividuMonstre(
     fun levelUp():Unit{
         niveau ++
 
+        if(espece.palierEvolution != null){
+            if(espece.palierEvolution!!.peutEvoluer(this)){
+                evoluer()
+            }
+        }
+
         attaque += round((espece.modAttaque * potentiel)).toInt() + (Random.nextInt(-2,3))
         defense += round((espece.modDefense * potentiel)).toInt() + (Random.nextInt(-2,3))
         vitesse += round((espece.modVitesse * potentiel)).toInt() + (Random.nextInt(-2,3))
@@ -113,4 +120,7 @@ class IndividuMonstre(
         println("Vitesse : $vitesse")
     }
 
+    fun evoluer(){
+        this.espece = this.espece.palierEvolution!!.evolution
+    }
 }
