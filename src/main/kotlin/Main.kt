@@ -1,4 +1,5 @@
 import jeu.CombatMonstre
+import javax.management.MBeanParameterInfo
 
 var joueur = Entraineur(1,"Sacha",100)
 var rival = Entraineur(2,"Regis",200)
@@ -10,47 +11,27 @@ val especeLaoumi = EspeceMonstre(8, "Laoumi", "Animal", 11, 10, 9, 8, 11, 58, 11
 val especeBugsyface = EspeceMonstre(10, "Bugsyface", "Insecte", 10, 13, 8, 7, 13, 45, 7.0, 11.0, 6.5, 8.0, 11.5, 21.0, "Insecte à carapace luisante, se déplace par bonds et vibre des antennes.", "Sa carapace devient plus dure après chaque mue.", "Travailleur, sociable, infatigable")
 val especeGalum = EspeceMonstre(13, "Galum", "Minéral", 12, 15, 6, 8, 12, 55, 9.0, 13.0, 4.0, 6.5, 10.5, 13.0, "Golem ancien de pierre, yeux lumineux en garde.", "Peut rester immobile des heures comme une statue.", "Sérieux, stoïque, fiable")
 
-var route1 = Zone(1,"route1",50,mutableListOf<EspeceMonstre>(especeSpringleaf,especeFlamkip,especeAquamy))
-var route2 = Zone(2,"route2",75,mutableListOf<EspeceMonstre>(especeLaoumi,especeBugsyface,especeGalum))
+var route1 = Zone(1,"Route 1",600,mutableListOf<EspeceMonstre>(especeLaoumi,especeBugsyface))
+var route2 = Zone(2,"Route 2",800,mutableListOf<EspeceMonstre>(especeSpringleaf,especeGalum))
 
+var kube1 = MonsterKube(1,"Kube","Un petit kube pour capturer un monstre",50.0)
 
 fun main() {
     route1.zoneSuivante = route2
     route2.ZonePrecedente = route1
+    joueur.sacAItems.add(kube1)
 
-//    val monstre1 = IndividuMonstre(1, "springleaf", especeSpringleaf,null,1500.0 )
-//    val monstre2 = IndividuMonstre(2, "flamkip", especeFlamkip,null,1500.0 )
-//    val monstre3 = IndividuMonstre(3, "aquamy", especeAquamy,null,1500.0 )
-
-    //val badgeRoche = Badge(1,"Badge Roche","Badge gagné lorque le joueur atteint l'arène de pierre.")
-
-    val MonsterKube = MonsterKube(1,"MonsterKube","Outil servant à capturer un monstre", 5.0)
-
-    joueur.equipeMonstre.add(monstre1)
-    route1.rencontreMonstre()
+    val partie = nouvellePartie()
+    partie.choixStarter()
+    partie.jouer()
 }
 
 
-/**
- * Change la couleur du message donné selon le nom de la couleur spécifié.
- * Cette fonction utilise les codes d'échappement ANSI pour appliquer une couleur à la sortie console. Si un nom de couleur
- * non reconnu ou une chaîne vide est fourni, aucune couleur n'est appliquée.
- *
- * @param message Le message auquel la couleur sera appliquée.
- * @param couleur Le nom de la couleur à appliquer (ex: "rouge", "vert", "bleu"). Par défaut c'est une chaîne vide, ce qui n'applique aucune couleur.
- * @return Le message coloré sous forme de chaîne, ou le même message si aucune couleur n'est appliquée.
- */
-fun changeCouleur(message: String, couleur:String=""): String {
-    val reset = "\u001B[0m"
-    val codeCouleur = when (couleur.lowercase()) {
-        "rouge" -> "\u001B[31m"
-        "vert" -> "\u001B[32m"
-        "jaune" -> "\u001B[33m"
-        "bleu" -> "\u001B[34m"
-        "magenta" -> "\u001B[35m"
-        "cyan" -> "\u001B[36m"
-        "blanc" -> "\u001B[37m"
-        else -> "" // pas de couleur si non reconnu
-    }
-    return "$codeCouleur$message$reset"
+
+fun nouvellePartie():Partie{
+    println("Bienvenue dans le monde magique des Pokémon! Mon nom est Chen! Les gens souvent m'appellent le Prof Pokémon! Ce monde est peuplé de créatures du nom de Pokémon!")
+    println("Rentrez votre nom : ")
+    val nomJoueur = readln()
+    val PartieJoueur = Partie(1,joueur,route1)
+    return PartieJoueur
 }
