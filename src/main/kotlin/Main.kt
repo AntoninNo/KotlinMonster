@@ -1,5 +1,7 @@
 import jeu.CombatMonstre
+import monde.Ville
 import monstre.PalierEvolution
+import java.lang.foreign.Arena
 import javax.management.MBeanParameterInfo
 
 var joueur = Entraineur(1,"Sacha",100)
@@ -20,12 +22,16 @@ val palierEvolutionFlamkip = PalierEvolution(1,7,especePyrokip)
 
 var route1 = Zone(1,"Route 1",600,mutableListOf<EspeceMonstre>(especeLaoumi,especeBugsyface))
 var route2 = Zone(2,"Route 2",800,mutableListOf<EspeceMonstre>(especeSpringleaf,especeGalum))
+var racailleCity = Ville(3,"Racaille City",1000,mutableListOf<EspeceMonstre>(especeFlamkip))
 
 var kube1 = MonsterKube(1,"Kube","Un petit kube pour capturer un monstre",50.0)
 
 fun main() {
     route1.zoneSuivante = route2
     route2.ZonePrecedente = route1
+    route2.zoneSuivante = racailleCity
+    racailleCity.ZonePrecedente = route2
+
     joueur.sacAItems.add(kube1)
     especeFlamkip.palierEvolution = palierEvolutionFlamkip
 

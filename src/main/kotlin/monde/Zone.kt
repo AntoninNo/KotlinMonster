@@ -14,7 +14,7 @@ import jeu.CombatMonstre
  * @property zoneSuivante La zone suivante reliée à cette zone, si elle existe.
  * @property ZonePrecedente La zone précédente reliée à cette zone, si elle existe.
  */
-class Zone(
+open class Zone(
     val id: Int,
     var nom: String,
     var expZone : Int,

@@ -28,4 +28,52 @@ class Entraineur(
          println("Dresseur : ${this.nom}")
         println("Argents: ${this.argents} ")
     }
+
+    fun soignerEquipe(){
+        for(monstre in equipeMonstre){
+            monstre.pv = monstre.pvMax
+        }
+    }
+    /**
+     * Permet de choisir un monstre valide dans l'équipe.
+     * - Si un seul monstre est en état de combattre, il est choisi automatiquement.
+     * - Sinon, on affiche un menu pour choisir.
+     *
+     * @return le monstre choisi
+     */
+    fun choisirMonstre(): IndividuMonstre? {
+        var compteur = 0
+        var monstreVivant = mutableListOf<IndividuMonstre>()
+        var choixMonstre: IndividuMonstre? = null
+        for(i in joueur.equipeMonstre){
+            if(i.pv > 0){
+                compteur ++
+                monstreVivant.add(i)
+            }
+        }
+        if(compteur == 1){
+            for(i in joueur.equipeMonstre){
+                if(i.pv > 0){
+                    return i
+                }
+            }
+        }else if(compteur > 1){
+            println("Choisir un monstre l'équipe")
+            while(choixMonstre == null){
+                for (i in joueur.equipeMonstre.indices) {
+                    if (joueur.equipeMonstre[i].pv > 1) {
+                        println("$i : ${joueur.equipeMonstre[i].nom}")
+                    }
+                }
+                val choixIndex = readln().toIntOrNull()
+
+                if (choixIndex != null && choixIndex in monstreVivant.indices) {
+                    choixMonstre = monstreVivant[choixIndex]
+                } else {
+                    println("Choix invalide, réessayez.")
+                }
+            }
+        }
+        return choixMonstre
+    }
 }

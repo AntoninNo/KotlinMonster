@@ -1,3 +1,5 @@
+import monde.Ville
+
 class Partie (
     var id: Int,
     var joueur:Entraineur,
@@ -70,11 +72,15 @@ class Partie (
 
     fun jouer(){
         println("Vous êtes dans ${this.zone.nom}")
-        println("Faites :" +
-                "1 -> Rencontrer un monstre sauvage, " +
-                "2 -> Examiner l'équipe, " +
-                "3 -> Aller à la zone suivante, " +
-                "4 -> Aller à la zone précédente ")
+        println("Faites :")
+        println("1 -> Rencontrer un monstre sauvage, ")
+        println("2 -> Examiner l'équipe, ")
+        println("3 -> Aller à la zone suivante, ")
+        println("4 -> Aller à la zone précédente ")
+        if(this.zone is Ville){
+            println("5 -> Soigner l'équipe")
+            println("6 -> Entrer dans l'arène")
+        }
         val choix = readln().toInt()
         when(choix){
             1 -> {
@@ -99,8 +105,13 @@ class Partie (
                 println("Pas de zone précédente")
                 jouer()
             }
+            5 -> if(this.zone is Ville){
+                joueur.soignerEquipe()
+                println("L'hopital soigne votre équipe")
+                jouer()
+            }
+            //TODO 6 -> arene
         }
-
     }
 
 
