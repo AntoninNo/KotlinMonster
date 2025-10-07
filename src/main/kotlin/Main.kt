@@ -1,12 +1,18 @@
 import jeu.CombatMonstre
+import monde.Arene
 import monde.Ville
 import monstre.PalierEvolution
 import java.lang.foreign.Arena
 import javax.management.MBeanParameterInfo
 
+//Initialisation des dresseurs
 var joueur = Entraineur(1,"Sacha",100)
 var rival = Entraineur(2,"Regis",200)
+var dresseur1:Entraineur = Entraineur(4,"Kenette",300)
+var dresseur2:Entraineur = Entraineur(5,"Maya",350)
+var champion1:Entraineur = Entraineur(3,"Pierre",500)
 
+//Initialisation des espèces
 val especeSpringleaf = EspeceMonstre(1, "Springleaf", "Graine", 9, 11, 10, 12, 14, 60, 6.5, 9.0, 8.0, 7.0, 10.0, 34.0, "Petit monstre espiègle rond comme une graine, adore le soleil.", "Sa feuille sur la tête indique son humeur.", "Curieux, amical, timide")
 val especeFlamkip = EspeceMonstre(4, "Flamkip", "Animal", 12, 8, 13, 16, 7, 50, 10.0, 5.5, 9.5, 9.5, 6.5, 22.0, "Petit animal entouré de flammes, déteste le froid.", "Sa flamme change d’intensité selon son énergie.", "Impulsif, joueur, loyal")
 val especeAquamy = EspeceMonstre(7, "Aquamy", "Meteo", 10, 11, 9, 14, 14, 55, 9.0, 10.0, 7.5, 12.0, 12.0, 27.0, "Créature vaporeuse semblable à un nuage, produit des gouttes pures.", "Fait baisser la température en s’endormant.", "Calme, rêveur, mystérieux")
@@ -17,20 +23,45 @@ val especePyrokip = EspeceMonstre(id = 5, nom = "pyrokip", type = "Animal", base
     //elements = mutableListOf(feu)
 )
 
+//Initialisation palier d'évolution
 val palierEvolutionFlamkip = PalierEvolution(1,7,especePyrokip)
 
+//Initialisation des monstres
+var monstre4:IndividuMonstre = IndividuMonstre(4,"bugsyface",especeBugsyface,dresseur1,3000.0)
+var monstre5:IndividuMonstre = IndividuMonstre(5,"aquamy",especeAquamy,dresseur1,3000.0)
 
+var monstre6:IndividuMonstre = IndividuMonstre(6,"laoumy",especeLaoumi,dresseur2,3000.0)
+var monstre7:IndividuMonstre = IndividuMonstre(7,"galum",especeGalum,dresseur2,3000.0)
+
+var monstre8:IndividuMonstre = IndividuMonstre(8,"springleaf",especeSpringleaf,champion1,4000.0)
+var monstre9:IndividuMonstre = IndividuMonstre(9,"flamkip",especeFlamkip,champion1,4000.0)
+var monstre10:IndividuMonstre = IndividuMonstre(10,"pyrokip",especePyrokip,champion1,5000.0)
+
+//Initialisation des zones
 var route1 = Zone(1,"Route 1",600,mutableListOf<EspeceMonstre>(especeLaoumi,especeBugsyface))
 var route2 = Zone(2,"Route 2",800,mutableListOf<EspeceMonstre>(especeSpringleaf,especeGalum))
-var racailleCity = Ville(3,"Racaille City",1000,mutableListOf<EspeceMonstre>(especeFlamkip))
+var racailleCity = Ville(3,"Racaille City",1000,mutableListOf<EspeceMonstre>(especeFlamkip), Arene(1,"Arène flamboyante",mutableListOf(dresseur1,dresseur2),champion1))
 
+//Initialisation des objets
 var kube1 = MonsterKube(1,"Kube","Un petit kube pour capturer un monstre",50.0)
 
 fun main() {
+    //Suite de l'initialisation des zones
     route1.zoneSuivante = route2
     route2.ZonePrecedente = route1
     route2.zoneSuivante = racailleCity
     racailleCity.ZonePrecedente = route2
+
+    //Initialisation des équipes de dresseur
+    dresseur1.equipeMonstre.add(monstre4)
+    dresseur1.equipeMonstre.add(monstre5)
+
+    dresseur2.equipeMonstre.add(monstre6)
+    dresseur2.equipeMonstre.add(monstre7)
+
+    champion1.equipeMonstre.add(monstre8)
+    champion1.equipeMonstre.add(monstre9)
+    champion1.equipeMonstre.add(monstre10)
 
     joueur.sacAItems.add(kube1)
     especeFlamkip.palierEvolution = palierEvolutionFlamkip
@@ -40,6 +71,7 @@ fun main() {
     partie.jouer()
 }
 
+//Fonction permettant de créer une nouvelle partie
 fun nouvellePartie():Partie{
     println("Bienvenue dans le monde magique des Pokémon! Mon nom est Chen! Les gens souvent m'appellent le Prof Pokémon! Ce monde est peuplé de créatures du nom de Pokémon!")
     println("Rentrez votre nom : ")

@@ -1,12 +1,21 @@
 package jeu
 import IndividuMonstre
-import EspeceMonstre
 import item.Utilisable
 import joueur
 
-
+/**
+ * Gère un combat entre le monstre du joueur et un monstre sauvage.
+ *
+ * Ce combat prend en compte la vitesse pour déterminer l'ordre des actions,
+ * les attaques, l'utilisation d'objets, le changement de monstre, et la gestion
+ * des conditions de victoire ou de défaite.
+ *
+ * @property monstreJoueur Le monstre actuellement utilisé par le joueur.
+ * @property monstreSauvage Le monstre sauvage affronté.
+ * @property round Compteur du round actuel du combat.
+ */
 class CombatMonstre(
-    var monstreJoueur: IndividuMonstre,
+    var monstreJoueur: IndividuMonstre?,
     var monstreSauvage: IndividuMonstre
     ) {
     var round : Int = 1
@@ -31,6 +40,14 @@ class CombatMonstre(
             return false
         }
     }
+    /**
+     * Vérifie si le joueur a gagné le combat.
+     *
+     * Condition : le monstre sauvage est KO ou capturé.
+     * En cas de victoire, le monstre du joueur gagne de l'expérience.
+     *
+     * @return true si le joueur a gagné, sinon false.
+     */
     fun joueurGagne(): Boolean{
         if(monstreSauvage.pv <= 0){
             println("${joueur.nom} a gagné !")
@@ -47,11 +64,21 @@ class CombatMonstre(
             }
         }
     }
+    /**
+     * Action du monstre sauvage (adversaire) : attaque si toujours en vie.
+     */
     fun actionAdversaire(){
         if(monstreSauvage.pv > 0){
             monstreSauvage.attaquer(monstreJoueur)
         }
     }
+    /**
+     * Action du joueur pendant son tour.
+     *
+     * Propose trois choix : attaquer, utiliser un objet, changer de monstre.
+     *
+     * @return false si le combat doit s'arrêter (par exemple capture réussie ou défaite), true sinon.
+     */
     fun actionJoueur(): Boolean{
         if(gameOver() == true){
             return false
@@ -91,6 +118,9 @@ class CombatMonstre(
         }
     return true
     }
+    /**
+     * Affiche l'état actuel du combat : niveaux, PV, et art ASCII des monstres.
+     */
     fun afficheCombat(){
         println("========= Début Round : $round =========")
         println("Niveau : ${monstreSauvage.niveau}")
@@ -100,6 +130,11 @@ class CombatMonstre(
         println("Niveau : ${monstreJoueur.niveau}")
         println("PV : ${monstreJoueur.pv} / ${monstreJoueur.pvMax}")
     }
+    /**
+     * Gère un tour complet du combat en fonction de la vitesse des monstres.
+     *
+     * Le monstre le plus rapide agit en premier.
+     */
     fun jouer(){
         val joueurPlusRapide: Boolean = (monstreJoueur.vitesse>=monstreSauvage.vitesse)
         afficheCombat()

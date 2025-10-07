@@ -1,10 +1,27 @@
 import monde.Ville
-
+/**
+ * Représente une partie de jeu, avec un joueur (dresseur), une zone actuelle, et les différentes actions possibles.
+ *
+ * La classe permet de gérer :
+ * - Le choix du monstre de départ (starter)
+ * - L'exploration des zones
+ * - Les combats contre des monstres sauvages
+ * - La gestion de l’équipe du joueur (consultation, changement d’ordre, soins)
+ * - Les transitions entre les zones
+ *
+ * @property id Identifiant unique de la partie.
+ * @property joueur Le dresseur contrôlé par le joueur.
+ * @property zone La zone actuelle dans laquelle se trouve le joueur.
+ */
 class Partie (
     var id: Int,
     var joueur:Entraineur,
     var zone: Zone) {
-
+/**
+ * Permet au joueur de choisir son monstre de départ parmi trois options prédéfinies.
+ * Le joueur peut voir les détails de chaque monstre et renommer celui qu'il choisit.
+ * Le monstre sélectionné est ensuite ajouté à son équipe.
+ */
     fun choixStarter() {
         val monstre1 = IndividuMonstre(4, "springleaf", especeSpringleaf, null, 1500.0)
         val monstre2 = IndividuMonstre(5, "flamkip", especeFlamkip, null, 1500.0)
@@ -30,7 +47,10 @@ class Partie (
         joueur.equipeMonstre.add(starter)
         starter.entraineur = joueur
     }
-
+/**
+ * Permet au joueur de modifier l'ordre de son équipe en échangeant deux positions.
+ * Affiche l’équipe actuelle, demande deux positions, et échange les monstres correspondants.
+ */
     fun modifierOrdreEquipe() {
         if (joueur.equipeMonstre.size < 2) {
             println("Erreur : il n'y a pas assez de monstres dans l'équipe.")
@@ -55,7 +75,12 @@ class Partie (
             println("$i : ${joueur.equipeMonstre[i].nom}")
         }
     }
-
+/**
+ * Affiche les monstres de l’équipe avec leur nom, puis permet :
+ * - D’examiner un monstre en détail
+ * - De modifier l’ordre de l’équipe
+ * - De quitter ce menu
+ */
     fun examineEquipe(){
         println("Équipe :")
         for (i in joueur.equipeMonstre.indices) {
@@ -69,7 +94,15 @@ class Partie (
             else -> joueur.equipeMonstre[choix.toInt()].afficherDetail()
         }
     }
-
+/**
+ * Boucle principale du jeu : propose différentes actions selon le contexte :
+ * - Rencontre d’un monstre sauvage
+ * - Consultation de l’équipe
+ * - Changement de zone (suivante / précédente)
+ * - Accès aux fonctionnalités spécifiques à une ville (soins, arène)
+ *
+ * Le menu se relance après chaque action sauf si le joueur quitte l’application.
+ */
     fun jouer(){
         println("Vous êtes dans ${this.zone.nom}")
         println("Faites :")

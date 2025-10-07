@@ -3,6 +3,32 @@ import kotlin.math.pow
 import kotlin.math.round
 import kotlin.random.Random
 
+/**
+ * Représente un individu de type monstre dans le contexte du jeu.
+ *
+ * Chaque individu possède des caractéristiques propres, dérivées de son espèce,
+ * et peut être affilié ou non à un entraîneur. Ses statistiques varient légèrement
+ * par rapport aux valeurs de base de son espèce grâce à une variation aléatoire à la création.
+ * Il possède également un niveau, une expérience, un potentiel d'évolution et des
+ * statistiques telles que l'attaque, la défense, la vitesse, etc.
+ *
+ * Lorsqu'il gagne de l'expérience, il peut monter de niveau automatiquement,
+ * ce qui est géré via la propriété `exp`.
+ *
+ * @property id L'identifiant unique de l'individu.
+ * @property nom Le nom donné à l'individu.
+ * @property espece L'espèce à laquelle appartient l'individu, définissant ses statistiques de base.
+ * @property entraineur L'entraîneur auquel l'individu est rattaché, s'il y en a un.
+ * @property niveau Le niveau actuel de l'individu.
+ * @property attaque La valeur d'attaque de l'individu, basée sur l'espèce avec une variation aléatoire.
+ * @property defense La valeur de défense de l'individu, avec variation aléatoire.
+ * @property vitesse La vitesse de l’individu, avec variation aléatoire.
+ * @property attaqueSpe L’attaque spéciale de l’individu, avec variation aléatoire.
+ * @property defenseSpe La défense spéciale de l’individu, avec variation aléatoire.
+ * @property pvMax Les points de vie maximum de l’individu, avec variation aléatoire.
+ * @property potentiel Le potentiel d’évolution de l’individu, une valeur entre 0.5 et 2.0.
+ * @property exp L'expérience accumulée par l’individu ; déclenche une montée de niveau lorsqu’un palier est atteint.
+ */
 class IndividuMonstre(
     var id:Int,
     var nom: String,
@@ -62,6 +88,12 @@ class IndividuMonstre(
     fun palierExp(niveauCible: Int = this.niveau): Double{
         return (100*(niveauCible-1).toDouble().pow(2.0))
     }
+
+    /**
+     * Incrémente le niveau quand appeler
+     * Vérifie si un palier d'évolution est atteint
+     * Augmente les stats de l'invididu avec un caractère aléatoire
+     */
     fun levelUp():Unit{
         niveau ++
 
@@ -109,6 +141,10 @@ class IndividuMonstre(
             this.nom = nouveauNom
         }
     }
+
+    /**
+     * Afficher le détail d'un individu
+     */
     fun afficherDetail(){
         println(espece.afficheArt())
         println("Nom du monstre : $nom")
@@ -120,6 +156,9 @@ class IndividuMonstre(
         println("Vitesse : $vitesse")
     }
 
+    /**
+     * Change l'espèce de l'individu pour son évolution
+     */
     fun evoluer(){
         this.espece = this.espece.palierEvolution!!.evolution
     }

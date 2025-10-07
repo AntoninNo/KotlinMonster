@@ -15,20 +15,34 @@ import jeu.CombatMonstre
  * @property ZonePrecedente La zone précédente reliée à cette zone, si elle existe.
  */
 open class Zone(
-    val id: Int,
+    var id: Int,
     var nom: String,
     var expZone : Int,
     var especeMonstres: MutableList<EspeceMonstre> = mutableListOf(),
     var zoneSuivante: Zone? = null,
     var ZonePrecedente: Zone? = null
 ){
+/**
+ * Génère un monstre sauvage aléatoire à partir des espèces disponibles dans la ville.
+ *
+ * Le monstre est créé avec une espèce choisie aléatoirement dans la liste `especeMonstres`.
+ * L'expérience de la zone est légèrement modifiée aléatoirement (±20) avant d'être utilisée
+ * pour initialiser le monstre.
+ *
+ * @return Un individu monstre généré aléatoirement (non affilié à un entraîneur).
+ */
     fun genereMonstre():IndividuMonstre{
         val especeMonstreAlea = especeMonstres.random()
         expZone += if (Random.nextBoolean()) 20 else -20
         var monstreAlea = IndividuMonstre(4000,"SauvageTest",especeMonstreAlea,null,expZone.toDouble())
         return monstreAlea
     }
-
+/**
+ * Déclenche une rencontre avec un monstre sauvage et démarre un combat contre lui.
+ *
+ * Le premier monstre vivant de l’équipe du joueur est utilisé pour combattre.
+ * Si aucun monstre vivant n’est trouvé, la méthode provoquera une exception.
+ */
     fun rencontreMonstre(){
         val monstreSauvage = genereMonstre()
         var premierPokemon: IndividuMonstre? = null

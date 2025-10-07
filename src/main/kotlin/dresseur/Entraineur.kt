@@ -28,7 +28,9 @@ class Entraineur(
          println("Dresseur : ${this.nom}")
         println("Argents: ${this.argents} ")
     }
-
+    /**
+     * Soigne tous les monstres de l'équipe en restaurant leurs points de vie au maximum.
+     */
     fun soignerEquipe(){
         for(monstre in equipeMonstre){
             monstre.pv = monstre.pvMax
